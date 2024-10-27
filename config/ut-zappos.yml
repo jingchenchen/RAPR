@@ -1,0 +1,43 @@
+model:
+  prompt_template: "a photo of x x"
+  clip_model: "ViT-L/14"
+  res_w: 0.8
+  SA_K: 1
+  LR_K: 1
+  width_img: 1024
+  width_txt: 768
+  retrieval_weight: 0.8
+  retrieval_temperature: 10.0
+  retrieval_topk: 32
+  att_obj_w: 0.8
+  res_w_vis: 0.8
+  res_w_vis_obj: 0.0 
+  res_w_vis_att: 0.0 
+  projection: sa
+
+train:
+  dataset: ut-zappos
+  dataset_path: "data/ut-zap50k"
+  lr: 0.0003
+  attr_dropout: 0.3
+  weight_decay: 0.00001
+  context_length: 8
+  train_batch_size: 128
+  gradient_accumulation_steps: 2
+  seed: 2134
+  epochs: 20
+  epoch_start: 0
+  best_model_metric: best_unseen     # best_unseen best_seen AUC best_loss best_hm None
+  load_model: False     # False or model path
+  save_path: saved_models/
+  debias_loss_weight: 5.0
+  retrieval_loss_topk: 512
+  retrieval_loss_weight: 0.1
+
+test:
+  eval_batch_size: 32
+  load_model:  saved_models/
+  topk: 1
+  threshold: 0.4
+  threshold_trials: 50
+  bias: 0.001
